@@ -1,7 +1,39 @@
+import React, { Fragment, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const Home: NextPage = () => {
+  const [game, setGame] = useState<"sutom" | "worldle">("worldle");
+  const [name, setName] = useState("Sylvain");
+  const [score, setScore] = useState(4);
+
+  const body = {
+    name,
+    score,
+    game,
+  };
+
+  console.log(body);
+
+  const handleSelectScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setScore(parseInt(e.target.value));
+  };
+
+  const people = [
+    { id: 1, name: "Sylvain" },
+    { id: 2, name: "Denis" },
+    { id: 3, name: "Benoît" },
+    { id: 4, name: "Guillaume" },
+    { id: 5, name: "Alexis V" },
+    { id: 6, name: "Alexis L" },
+    { id: 7, name: "Youssef" },
+    { id: 8, name: "Arnaud" },
+    { id: 9, name: "Johan" },
+    { id: 10, name: "Bastien" },
+  ];
+
   return (
     <>
       <Head>
@@ -10,70 +42,268 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-around p-4">
-        <h1 className="text-center text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
+        <h1 className="text-center text-3xl font-extrabold leading-normal text-white md:text-[3rem]">
           Alpha Gang&Games
         </h1>
         <h2 className="text-center text-2xl">Choose your game</h2>
         <div className="flex justify-around">
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="worldle" value="worldle" checked />
-            <label htmlFor="">Worldle</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="worldle"
+              className={`block cursor-pointer rounded border border-gray-500 px-4 py-2 hover:border-green-500 hover:bg-green-500 ${
+                game === "worldle"
+                  ? "border-green-500 bg-green-500"
+                  : "bg-transparent"
+              }`}
+            >
+              <input
+                className="appearance-none"
+                type="radio"
+                name="worldle"
+                id="worldle"
+                value="worldle"
+                onChange={() => setGame("worldle")}
+                checked={game === "worldle"}
+              />
+              Worldle
+            </label>
           </div>
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="sutom" value="sutom" />
-            <label htmlFor="">Sutom</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="sutom"
+              className={`block cursor-pointer rounded border border-gray-500 px-4 py-2 hover:border-orange-500 hover:bg-orange-500 ${
+                game === "sutom"
+                  ? "border-orange-500 bg-orange-500"
+                  : "bg-transparent"
+              }`}
+            >
+              <input
+                type="radio"
+                name="sutom"
+                id="sutom"
+                value="sutom"
+                className="appearance-none"
+                onChange={() => setGame("sutom")}
+                checked={game === "sutom"}
+              />
+              Sutom
+            </label>
           </div>
         </div>
         <h2 className="text-center text-2xl">
           What&apos;s your name, fellow challenger ?
         </h2>
-        <div>
-          <select name="playerName" id="playerName">
-            <option value="sylvain">Sylvain</option>
-            <option value="benoit">Benoît</option>
-            <option value="Denis">Denis</option>
-            <option value="Youssef">Youssef</option>
-            <option value="Bastien">Bastien</option>
-            <option value="Alexis V">Alexis V</option>
-            <option value="Alexis L">Alexis L</option>
-            <option value="Arnaud">Arnaud</option>
-            <option value="Johan">Johan</option>
-            <option value="Guillaume">Guillaume</option>
-          </select>
+        <div className="w-56">
+          <Listbox value={name} onChange={setName}>
+            <div className="relative mt-1">
+              <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <span className="block truncate text-black">{name}</span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <ChevronUpDownIcon
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {people.map((person, personIdx) => (
+                    <Listbox.Option
+                      key={personIdx}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active
+                            ? "bg-amber-100 text-amber-900"
+                            : "text-gray-900"
+                        }`
+                      }
+                      value={person.name}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {person.name}
+                          </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </Listbox>
         </div>
         <h2 className="text-center text-2xl">Did you score well ?</h2>
         <div className="flex justify-around">
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="1" value="1" checked />
-            <label htmlFor="1">1</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="1"
+              className={`block cursor-pointer rounded border px-4 py-2 hover:border-orange-500 hover:bg-orange-500 ${
+                score === 1
+                  ? "border-orange-500 bg-orange-500"
+                  : "border-gray-500 bg-transparent"
+              }`}
+            >
+              <input
+                type="radio"
+                className="appearance-none"
+                name="1"
+                id="1"
+                value={1}
+                checked={score === 1}
+                onChange={handleSelectScore}
+              />
+              1
+            </label>
           </div>
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="2" value="2" />
-            <label htmlFor="2">2</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="2"
+              className={`block cursor-pointer rounded border px-4 py-2 hover:border-orange-500 hover:bg-orange-500 ${
+                score === 2
+                  ? "border-orange-500 bg-orange-500"
+                  : "border-gray-500 bg-transparent"
+              }`}
+            >
+              <input
+                type="radio"
+                className="appearance-none"
+                name="2"
+                id="2"
+                value={2}
+                checked={score === 2}
+                onChange={handleSelectScore}
+              />
+              2
+            </label>
           </div>
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="3" value="3" />
-            <label htmlFor="3">3</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="3"
+              className={`block cursor-pointer rounded border px-4 py-2 hover:border-orange-500 hover:bg-orange-500 ${
+                score === 3
+                  ? "border-orange-500 bg-orange-500"
+                  : "border-gray-500 bg-transparent"
+              }`}
+            >
+              <input
+                type="radio"
+                className="appearance-none"
+                name="3"
+                id="3"
+                value={3}
+                checked={score === 3}
+                onChange={handleSelectScore}
+              />
+              3
+            </label>
           </div>
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="4" value="4" />
-            <label htmlFor="4">4</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="4"
+              className={`block cursor-pointer rounded border px-4 py-2 hover:border-orange-500 hover:bg-orange-500 ${
+                score === 4
+                  ? "border-orange-500 bg-orange-500"
+                  : "border-gray-500 bg-transparent"
+              }`}
+            >
+              <input
+                type="radio"
+                className="appearance-none"
+                name="4"
+                id="4"
+                value={4}
+                checked={score === 4}
+                onChange={handleSelectScore}
+              />
+              4
+            </label>
           </div>
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="5" value="5" />
-            <label htmlFor="5">5</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="5"
+              className={`block cursor-pointer rounded border px-4 py-2 hover:border-orange-500 hover:bg-orange-500 ${
+                score === 5
+                  ? "border-orange-500 bg-orange-500"
+                  : "border-gray-500 bg-transparent"
+              }`}
+            >
+              <input
+                type="radio"
+                className="appearance-none"
+                name="5"
+                id="5"
+                value={5}
+                checked={score === 5}
+                onChange={handleSelectScore}
+              />
+              5
+            </label>
           </div>
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="6" value="6" />
-            <label htmlFor="6">6</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="6"
+              className={`block cursor-pointer rounded border px-4 py-2 hover:border-orange-500 hover:bg-orange-500 ${
+                score === 6
+                  ? "border-orange-500 bg-orange-500"
+                  : "border-gray-500 bg-transparent"
+              }`}
+            >
+              <input
+                type="radio"
+                className="appearance-none"
+                name="6"
+                id="6"
+                value={6}
+                checked={score === 6}
+                onChange={handleSelectScore}
+              />
+              6
+            </label>
           </div>
-          <div className="mx-2 block border border-gray-500 px-4 py-2">
-            <input type="radio" name="7" value="7" />
-            <label htmlFor="7">7</label>
+          <div className="mx-2 block">
+            <label
+              htmlFor="7"
+              className={`block cursor-pointer rounded border px-4 py-2 hover:border-orange-500 hover:bg-orange-500 ${
+                score === 7
+                  ? "border-orange-500 bg-orange-500"
+                  : "border-gray-500 bg-transparent"
+              }`}
+            >
+              <input
+                type="radio"
+                className="appearance-none"
+                name="7"
+                id="7"
+                value={7}
+                checked={score === 7}
+                onChange={handleSelectScore}
+              />
+              7
+            </label>
           </div>
         </div>
         <div className="flex justify-center">
-          <button>Just send it !</button>
+          <button className="rounded bg-orange-500 px-4 py-2 hover:bg-orange-700">
+            Just send it !
+          </button>
         </div>
       </main>
     </>

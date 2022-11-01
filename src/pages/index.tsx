@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { trpc } from "../utils/trpc";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
@@ -9,31 +10,22 @@ const Home: NextPage = () => {
   const [userId, setUserId] = useState(1);
   const [score, setScore] = useState(4);
 
+  const { data } = trpc.users.getAll.useQuery();
+  const createWorldleScoreMutation = trpc.worldle.createScore.useMutation();
+  const createSutomScoreMutation = trpc.sutom.createScore.useMutation();
+
   const handleSelectScore = (e: React.ChangeEvent<HTMLInputElement>) => {
     setScore(parseInt(e.target.value));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const body = { userId, score, game };
-    try {
-      const response = await fetch("/api/dailyscore", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (response.status !== 200) {
-        console.log("something went wrong");
-        //set an error banner here
-      } else {
-        resetForm();
-        console.log("form submitted successfully !!!");
-        //set a success banner here
-      }
-      //check response, if success is false, dont take them to success page
-    } catch (error) {
-      console.log("there was an error submitting", error);
+    if (game === "worldle") {
+      createWorldleScoreMutation.mutate({ userId, score });
+    } else {
+      createSutomScoreMutation.mutate({ userId, score });
     }
+    resetForm();
   };
 
   const resetForm = () => {
@@ -42,23 +34,8 @@ const Home: NextPage = () => {
     setScore(7);
   };
 
-  const people = [
-    { id: 1, name: "Sylvain" },
-    { id: 2, name: "Denis" },
-    { id: 3, name: "Benoît" },
-    { id: 4, name: "Guillaume" },
-    { id: 5, name: "Alexis V" },
-    { id: 6, name: "Alexis L" },
-    { id: 7, name: "Youssef" },
-    { id: 8, name: "Arnaud" },
-    { id: 9, name: "Johan" },
-    { id: 10, name: "Bastien" },
-  ];
-
-  const findUser = (id: number) => {
-    console.log("test", id);
-    const user = people.find((person) => person.id === id);
-    console.log("toto", user);
+  const displayUserName = (id: number) => {
+    const user = data && data.find((user) => user.id === id);
     if (user) return user.name;
   };
 
@@ -126,7 +103,7 @@ const Home: NextPage = () => {
             <div className="relative mt-1">
               <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                 <span className="block truncate text-black">
-                  {findUser(userId)}
+                  {displayUserName(userId)}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon
@@ -142,39 +119,41 @@ const Home: NextPage = () => {
                 leaveTo="opacity-0"
               >
                 <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {people.map((person, personIdx) => (
-                    <Listbox.Option
-                      key={personIdx}
-                      className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                          active
-                            ? "bg-amber-100 text-amber-900"
-                            : "text-gray-900"
-                        }`
-                      }
-                      value={person.id}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span
-                            className={`block truncate ${
-                              selected ? "font-medium" : "font-normal"
-                            }`}
-                          >
-                            {person.name}
-                          </span>
-                          {selected ? (
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                              <CheckIcon
-                                className="h-5 w-5"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          ) : null}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
+                  {data
+                    ? data.map((user, userIdx) => (
+                        <Listbox.Option
+                          key={userIdx}
+                          className={({ active }) =>
+                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                              active
+                                ? "bg-amber-100 text-amber-900"
+                                : "text-gray-900"
+                            }`
+                          }
+                          value={user.id}
+                        >
+                          {({ selected }) => (
+                            <>
+                              <span
+                                className={`block truncate ${
+                                  selected ? "font-medium" : "font-normal"
+                                }`}
+                              >
+                                {user.name}
+                              </span>
+                              {selected ? (
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                  <CheckIcon
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              ) : null}
+                            </>
+                          )}
+                        </Listbox.Option>
+                      ))
+                    : null}
                 </Listbox.Options>
               </Transition>
             </div>

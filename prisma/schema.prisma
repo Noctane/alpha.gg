@@ -32,8 +32,6 @@ model User {
   sutomScore      Int
   worldleGames    Int
   sutomGames      Int
-  worldleAverage  Float
-  sutomAverage    Float
   worldle         Worldle[]
   sutom           Sutom[]
 }

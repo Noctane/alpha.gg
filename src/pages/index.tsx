@@ -5,20 +5,41 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const Home: NextPage = () => {
-  const [game, setGame] = useState<"sutom" | "worldle">("worldle");
-  const [name, setName] = useState("Sylvain");
+  const [game, setGame] = useState("worldle");
+  const [userId, setUserId] = useState(1);
   const [score, setScore] = useState(4);
-
-  const body = {
-    name,
-    score,
-    game,
-  };
-
-  console.log(body);
 
   const handleSelectScore = (e: React.ChangeEvent<HTMLInputElement>) => {
     setScore(parseInt(e.target.value));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const body = { userId, score, game };
+    try {
+      const response = await fetch("/api/dailyscore", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (response.status !== 200) {
+        console.log("something went wrong");
+        //set an error banner here
+      } else {
+        resetForm();
+        console.log("form submitted successfully !!!");
+        //set a success banner here
+      }
+      //check response, if success is false, dont take them to success page
+    } catch (error) {
+      console.log("there was an error submitting", error);
+    }
+  };
+
+  const resetForm = () => {
+    setGame("");
+    setUserId(1);
+    setScore(7);
   };
 
   const people = [
@@ -33,6 +54,13 @@ const Home: NextPage = () => {
     { id: 9, name: "Johan" },
     { id: 10, name: "Bastien" },
   ];
+
+  const findUser = (id: number) => {
+    console.log("test", id);
+    const user = people.find((person) => person.id === id);
+    console.log("toto", user);
+    if (user) return user.name;
+  };
 
   return (
     <>
@@ -94,10 +122,12 @@ const Home: NextPage = () => {
           What&apos;s your name, fellow challenger ?
         </h2>
         <div className="w-56">
-          <Listbox value={name} onChange={setName}>
+          <Listbox value={userId} onChange={setUserId}>
             <div className="relative mt-1">
               <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                <span className="block truncate text-black">{name}</span>
+                <span className="block truncate text-black">
+                  {findUser(userId)}
+                </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon
                     className="h-5 w-5 text-gray-400"
@@ -122,7 +152,7 @@ const Home: NextPage = () => {
                             : "text-gray-900"
                         }`
                       }
-                      value={person.name}
+                      value={person.id}
                     >
                       {({ selected }) => (
                         <>
@@ -301,7 +331,10 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <button className="rounded bg-orange-500 px-4 py-2 hover:bg-orange-700">
+          <button
+            onClick={handleSubmit}
+            className="rounded bg-orange-500 px-4 py-2 hover:bg-orange-700"
+          >
             Just send it !
           </button>
         </div>

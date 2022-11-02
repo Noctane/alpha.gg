@@ -9,10 +9,8 @@ export default function GameChoice({ game, onGameChoice }: GameChoiceProps) {
       <div className="mx-2 block">
         <label
           htmlFor="worldle"
-          className={`block cursor-pointer rounded border border-gray-500 px-4 py-2 hover:border-green-500 hover:bg-green-500 ${
-            game === "worldle"
-              ? "border-green-500 bg-green-500"
-              : "bg-transparent"
+          className={`block cursor-pointer rounded px-4 py-2 hover:bg-green-500 ${
+            game === "worldle" ? " bg-green-500" : "bg-slate-700"
           }`}
         >
           <input
@@ -30,10 +28,8 @@ export default function GameChoice({ game, onGameChoice }: GameChoiceProps) {
       <div className="mx-2 block">
         <label
           htmlFor="sutom"
-          className={`block cursor-pointer rounded border border-gray-500 px-4 py-2 hover:border-yellow-500 hover:bg-yellow-500 ${
-            game === "sutom"
-              ? "border-yellow-500 bg-yellow-500"
-              : "bg-transparent"
+          className={`block cursor-pointer rounded  px-4 py-2 hover:bg-yellow-500 ${
+            game === "sutom" ? "bg-yellow-500" : "bg-slate-700"
           }`}
         >
           <input

@@ -23,11 +23,11 @@ export default function PlayerChoice({
     <div className="w-2/3">
       <Listbox value={userId} onChange={onPlayerChoice}>
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate pl-7 text-black">
+          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-slate-700 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+            <span className="block truncate pl-7 text-slate-300">
               {userId ? (
                 <>
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-300">
                     <CheckIcon className="h-5 w-5" aria-hidden="true" />
                   </span>{" "}
                   {displayUserName(userId)}
@@ -49,7 +49,7 @@ export default function PlayerChoice({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-slate-700 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {userList
                 ? userList.map((user, userIdx) => (
                     <Listbox.Option
@@ -57,8 +57,8 @@ export default function PlayerChoice({
                       className={({ active }) =>
                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
                           active
-                            ? "bg-amber-100 text-amber-900"
-                            : "text-gray-900"
+                            ? "bg-slate-600 text-slate-50"
+                            : "text-slate-300"
                         }`
                       }
                       value={user.id}
@@ -73,7 +73,7 @@ export default function PlayerChoice({
                             {user.name}
                           </span>
                           {selected ? (
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-50">
                               <CheckIcon
                                 className="h-5 w-5"
                                 aria-hidden="true"

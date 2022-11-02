@@ -37,7 +37,7 @@ const Home: NextPage = () => {
                   {data.worldle.map((worldle) => (
                     <tr key={worldle.id}>
                       <td className="border border-slate-700 p-4 text-center text-slate-400">
-                        {format(worldle.date, "dd/MM/yyyy")}
+                        {format(worldle.createdAt, "dd/MM/yyyy")}
                       </td>
                       <td className="border border-slate-700 p-4 text-center text-slate-400">
                         {worldle.score}
@@ -68,7 +68,7 @@ const Home: NextPage = () => {
                   {data.sutom.map((sutom) => (
                     <tr key={sutom.id}>
                       <td className="border border-slate-700 p-4 text-center text-slate-400">
-                        {format(sutom.date, "dd/MM/yyyy")}
+                        {format(sutom.createdAt, "dd/MM/yyyy")}
                       </td>
                       <td className="border border-slate-700 p-4 text-center text-slate-400">
                         {sutom.score}

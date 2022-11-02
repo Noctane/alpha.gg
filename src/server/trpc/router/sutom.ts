@@ -5,7 +5,7 @@ export const sutomRouter = router({
   createScore: publicProcedure
     .input(z.object({ score: z.number(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.sutom.create({
+      const score = await ctx.prisma.sutom.create({
         data: {
           score: input.score,
           user: {
@@ -15,5 +15,6 @@ export const sutomRouter = router({
           },
         },
       });
+      return score;
     }),
 });

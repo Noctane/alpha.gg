@@ -7,7 +7,7 @@ import { format } from "date-fns";
 
 const Home: NextPage = () => {
   const { query } = useRouter();
-  const { data } = trpc.users.getById.useQuery(parseInt(query.id as string));
+  const { data } = trpc.users.getById.useQuery(query.id as string);
 
   return (
     <>

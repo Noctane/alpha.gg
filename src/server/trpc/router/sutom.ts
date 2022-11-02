@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const sutomRouter = router({
   createScore: publicProcedure
-    .input(z.object({ score: z.number(), userId: z.number() }))
+    .input(z.object({ score: z.number(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.sutom.create({
         data: {

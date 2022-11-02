@@ -10,23 +10,23 @@ datasource db {
 }
 
 model Sutom {
-  id              Int      @id @default(autoincrement())
+  id              String   @id @unique @default(uuid())
   score           Int
-  date            DateTime @default(now())
+  createdAt       DateTime @default(now())
   user            User     @relation(name: "sutomscore", fields: [userId], references: [id])
-  userId          Int
+  userId          String
 }
 
 model Worldle {
-  id              Int      @id @default(autoincrement())
+  id              String   @id @unique @default(uuid())
   score           Int
-  date            DateTime @default(now())
+  createdAt       DateTime @default(now())
   user            User     @relation(name: "worldlescore", fields: [userId], references: [id])
-  userId          Int
+  userId          String
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
+  id              String      @id @unique @default(uuid())
   name            String
   worldleScore    Int
   sutomScore      Int

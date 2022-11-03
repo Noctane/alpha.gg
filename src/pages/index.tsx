@@ -31,12 +31,22 @@ const Home: NextPage = () => {
     if (game === "worldle") {
       createWorldleScoreMutation.mutate(
         { userId, score },
-        { onSuccess: () => setIsDialogOpen(true) }
+        {
+          onSuccess: () => setIsDialogOpen(true),
+          onError: (error) => {
+            console.error(JSON.stringify(error.message));
+          },
+        }
       );
     } else {
       createSutomScoreMutation.mutate(
         { userId, score },
-        { onSuccess: () => setIsDialogOpen(true) }
+        {
+          onSuccess: () => setIsDialogOpen(true),
+          onError: (error) => {
+            console.error(JSON.stringify(error.message));
+          },
+        }
       );
     }
   };

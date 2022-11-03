@@ -16,6 +16,6 @@ export const usersRouter = router({
     return user;
   }),
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.user.findMany();
+    return await ctx.prisma.user.findMany({});
   }),
 });

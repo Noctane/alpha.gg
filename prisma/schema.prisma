@@ -26,10 +26,10 @@ model Worldle {
 }
 
 model User {
-  id              String      @id @unique @default(uuid())
+  id              String    @id @unique @default(uuid())
   name            String
-  worldleScore    Int
-  sutomScore      Int
+  worldleScore    Float
+  sutomScore      Float
   worldle         Worldle[] @relation("worldlescore")
   sutom           Sutom[]   @relation("sutomscore")
 }

@@ -15,6 +15,19 @@ export const sutomRouter = router({
           },
         },
       });
+
+      const average = await ctx.prisma.sutom.aggregate({
+        _avg: { score: true },
+      });
+
+      await ctx.prisma.user.update({
+        where: { id: input.userId },
+        data: {
+          sutomScore: {
+            set: average._avg.score as number,
+          },
+        },
+      });
       return score;
     }),
 });

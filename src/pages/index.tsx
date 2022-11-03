@@ -53,6 +53,12 @@ const Home: NextPage = () => {
     setScore(4);
   };
 
+  const getBaseUrl = () => {
+    if (typeof window !== "undefined") return ""; // browser should use relative url
+    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
+    return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+  };
+
   return (
     <>
       <Head>
@@ -131,7 +137,7 @@ const Home: NextPage = () => {
                     </div>
 
                     <div className="mt-4 flex justify-between">
-                      <Link href={`http://localhost:3000/user/${userId}`}>
+                      <Link href={`${getBaseUrl()}/user/${userId}`}>
                         <button
                           type="button"
                           className="inline-flex justify-center rounded-md border border-transparent bg-orange-100 px-4 py-2 text-sm font-medium text-orange-600 hover:bg-orange-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"

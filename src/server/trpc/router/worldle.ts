@@ -10,6 +10,7 @@ export const worldleRouter = router({
       // Check if score has already been submitted today
       const scoreExist = await ctx.prisma.worldle.findMany({
         where: {
+          userId: input.userId,
           createdAt: {
             gte: new Date(
               formatISO(new Date(Date.now()), { representation: "date" })

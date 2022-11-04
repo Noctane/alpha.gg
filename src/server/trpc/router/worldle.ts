@@ -38,6 +38,7 @@ export const worldleRouter = router({
       });
       // Update average score
       const average = await ctx.prisma.worldle.aggregate({
+        where: { userId: input.userId },
         _avg: { score: true },
       });
 

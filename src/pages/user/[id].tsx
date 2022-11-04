@@ -6,7 +6,7 @@ import Head from "next/head";
 import { trpc } from "../../utils/trpc";
 import { format } from "date-fns";
 
-const Home: NextPage = () => {
+const UserPage: NextPage = () => {
   const { query } = useRouter();
   const { data } = trpc.users.getById.useQuery(query.id as string);
 
@@ -95,4 +95,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default UserPage;

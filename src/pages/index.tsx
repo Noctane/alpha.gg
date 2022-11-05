@@ -7,6 +7,7 @@ import { GameChoice } from "../components/GameChoice";
 import { PlayerChoice } from "../components/PlayerChoice";
 import { SelectScore } from "../components/SelectScore";
 import { DialogSuccess } from "../components/DialogSuccess";
+import { DialogFailure } from "../components/DialogFailure";
 
 const Home: NextPage = () => {
   // Form state
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
   const [score, setScore] = useState<number | undefined>();
   // Dialog state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isFailureDialogOpen, setIsFailureDialogOpen] = useState(false);
 
   // Fetch data fns
   const { data } = trpc.users.getAll.useQuery();
@@ -34,8 +36,8 @@ const Home: NextPage = () => {
         { userId, score },
         {
           onSuccess: () => setIsDialogOpen(true),
-          onError: (error) => {
-            console.error(JSON.stringify(error.message));
+          onError: () => {
+            setIsFailureDialogOpen(true);
           },
         }
       );
@@ -44,8 +46,8 @@ const Home: NextPage = () => {
         { userId, score },
         {
           onSuccess: () => setIsDialogOpen(true),
-          onError: (error) => {
-            console.error(JSON.stringify(error.message));
+          onError: () => {
+            setIsFailureDialogOpen(true);
           },
         }
       );
@@ -54,6 +56,11 @@ const Home: NextPage = () => {
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
+    resetForm();
+  };
+
+  const handleCloseFailureDialog = () => {
+    setIsFailureDialogOpen(false);
     resetForm();
   };
 
@@ -107,6 +114,10 @@ const Home: NextPage = () => {
         isDialogOpen={isDialogOpen}
         handleCloseDialog={handleCloseDialog}
         userId={userId}
+      />
+      <DialogFailure
+        isDialogOpen={isFailureDialogOpen}
+        handleCloseDialog={handleCloseFailureDialog}
       />
     </>
   );

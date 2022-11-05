@@ -1,5 +1,5 @@
 interface SelectScoreProps {
-  score: number;
+  score: number | undefined;
   handleSelectScore: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -13,8 +13,8 @@ export default function SelectScore({
         <div className="mx-2 block" key={idx}>
           <label
             htmlFor={idx}
-            className={`block cursor-pointer rounded px-4 py-2 hover:bg-pink-400 ${
-              score === +idx ? "bg-pink-400" : "bg-slate-700"
+            className={`block cursor-pointer rounded border bg-slate-700 px-4 py-2 hover:border-pink-400 ${
+              score === +idx ? "border-pink-400" : "border-transparent"
             }`}
           >
             <input

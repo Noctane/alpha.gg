@@ -4,7 +4,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { User } from "@prisma/client";
 
 interface PlayerChoiceProps {
-  userId: string;
+  userId: string | undefined;
   onPlayerChoice: (userId: string) => void;
   userList: User[] | undefined;
 }
@@ -20,7 +20,7 @@ export default function PlayerChoice({
   };
 
   return (
-    <div className="w-2/3">
+    <div className="w-52">
       <Listbox value={userId} onChange={onPlayerChoice}>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-slate-700 py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">

@@ -1,5 +1,5 @@
 interface GameChoiceProps {
-  game: string;
+  game: string | undefined;
   onGameChoice: (game: string) => void;
 }
 
@@ -9,8 +9,10 @@ export default function GameChoice({ game, onGameChoice }: GameChoiceProps) {
       <div className="mx-2 block">
         <label
           htmlFor="worldle"
-          className={`block cursor-pointer rounded px-4 py-2 hover:bg-green-500 ${
-            game === "worldle" ? " bg-green-500" : "bg-slate-700"
+          className={`block cursor-pointer rounded border bg-slate-700 px-4 py-2 hover:border hover:border-green-500 ${
+            game === "worldle"
+              ? "border border-green-500"
+              : "border-transparent"
           }`}
         >
           <input
@@ -28,8 +30,8 @@ export default function GameChoice({ game, onGameChoice }: GameChoiceProps) {
       <div className="mx-2 block">
         <label
           htmlFor="sutom"
-          className={`block cursor-pointer rounded  px-4 py-2 hover:bg-yellow-500 ${
-            game === "sutom" ? "bg-yellow-500" : "bg-slate-700"
+          className={`block cursor-pointer rounded border bg-slate-700 px-4 py-2 hover:border hover:border-yellow-500 ${
+            game === "sutom" ? "border border-yellow-500" : "border-transparent"
           }`}
         >
           <input

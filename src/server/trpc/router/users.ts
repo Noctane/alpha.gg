@@ -16,6 +16,15 @@ export const usersRouter = router({
     return user;
   }),
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.user.findMany({});
+    return await ctx.prisma.user.findMany({
+      include: {
+        _count: {
+          select: {
+            worldle: true,
+            sutom: true,
+          },
+        },
+      },
+    });
   }),
 });

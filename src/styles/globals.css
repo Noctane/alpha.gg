@@ -1,7 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
   @apply bg-slate-900 text-slate-50;
+}
+
+.neon {
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
+    0 0 42px rgb(255, 51, 211), 0 0 82px rgb(255, 51, 211),
+    0 0 92px rgb(255, 51, 211), 0 0 102px rgb(255, 51, 211),
+    0 0 151px rgb(255, 51, 211);
+}
+
+.blue-neon {
+  color: fff(192, 188, 255);
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px rgb(51, 116, 255),
+    0 0 42px rgb(51, 116, 255), 0 0 82px rgb(51, 116, 255),
+    0 0 92px rgb(51, 116, 255), 0 0 102px rgb(51, 116, 255),
+    0 0 151px rgb(51, 116, 255);
+  /* animation: flicker 1s infinite; */
+}
+
+@keyframes flicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  68%,
+  72%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px rgb(51, 116, 255),
+      0 0 40px rgb(51, 116, 255), 0 0 80px rgb(51, 116, 255),
+      0 0 90px rgb(51, 116, 255), 0 0 100px rgb(51, 116, 255),
+      0 0 150px rgb(51, 116, 255);
+  }
+  20%,
+  24%,
+  55%,
+  70% {
+    text-shadow: none;
+  }
 }

@@ -27,6 +27,8 @@ const Home: NextPage = () => {
     setScore(parseInt(e.target.value, 10));
   };
 
+  console.log(!userId && !score && !game);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: refacto back & front -> use a single endpoint if possible
@@ -101,7 +103,7 @@ const Home: NextPage = () => {
           <button
             onClick={handleSubmit}
             type="button"
-            disabled={!userId && !score && !game}
+            disabled={!(!!userId && !!score && !!game)}
             className="rounded bg-slate-600 px-4 py-2 hover:bg-slate-50 hover:text-slate-700 disabled:bg-slate-900 disabled:text-slate-700"
           >
             Et ça part!

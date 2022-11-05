@@ -27,8 +27,6 @@ const Home: NextPage = () => {
     setScore(parseInt(e.target.value, 10));
   };
 
-  console.log(!userId && !score && !game);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: refacto back & front -> use a single endpoint if possible

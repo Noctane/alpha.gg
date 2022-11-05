@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { Layout } from "../../components/Layout";
 import { trpc } from "../../utils/trpc";
 
@@ -39,7 +40,9 @@ export default function Leaderboards() {
                   key={user.id}
                   className="odd:bg-slate-800 even:bg-slate-700 group-hover:bg-slate-600"
                 >
-                  <td className="p-4 text-slate-300">{user.name}</td>
+                  <td className="p-4 text-slate-300">
+                    <Link href={`/user/${user.id}`}>{user.name}</Link>
+                  </td>
                   <td className="p-4 text-center text-slate-400">
                     {user._count.worldle}
                   </td>

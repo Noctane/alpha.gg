@@ -79,33 +79,35 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <h2 className="text-center text-xl text-slate-500">
-          Hey mais salut ! tu joues à quoi ?
-        </h2>
-        <GameChoice game={game} onGameChoice={setGame} />
-        <h2 className="text-center text-xl text-slate-500">
-          ...et ton petit nom ?...
-        </h2>
-        <PlayerChoice
-          userList={data}
-          userId={userId}
-          onPlayerChoice={setUserId}
-        />
-        <h2 className="text-center text-xl text-slate-500">
-          ...balance ton score !
-        </h2>
-        <div className="flex justify-around">
-          <SelectScore score={score} handleSelectScore={handleSelectScore} />
-        </div>
-        <div className="flex justify-center">
-          <button
-            onClick={handleSubmit}
-            type="button"
-            disabled={!(!!userId && !!score && !!game)}
-            className="rounded bg-slate-600 px-4 py-2 hover:bg-slate-50 hover:text-slate-700 disabled:bg-slate-900 disabled:text-slate-700"
-          >
-            Et ça part!
-          </button>
+        <div className="flex flex-grow flex-col items-center justify-between">
+          <h2 className="text-center text-xl text-slate-500">
+            Hey mais salut ! tu joues à quoi ?
+          </h2>
+          <GameChoice game={game} onGameChoice={setGame} />
+          <h2 className="text-center text-xl text-slate-500">
+            ...et ton petit nom ?...
+          </h2>
+          <PlayerChoice
+            userList={data}
+            userId={userId}
+            onPlayerChoice={setUserId}
+          />
+          <h2 className="text-center text-xl text-slate-500">
+            ...balance ton score !
+          </h2>
+          <div className="flex justify-around">
+            <SelectScore score={score} handleSelectScore={handleSelectScore} />
+          </div>
+          <div className="flex justify-center">
+            <button
+              onClick={handleSubmit}
+              type="button"
+              disabled={!(!!userId && !!score && !!game)}
+              className="rounded bg-slate-600 px-4 py-2 hover:bg-slate-50 hover:text-slate-700 disabled:bg-slate-900 disabled:text-slate-700"
+            >
+              Et ça part!
+            </button>
+          </div>
         </div>
       </Layout>
       <>

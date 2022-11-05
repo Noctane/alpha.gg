@@ -7,9 +7,22 @@ export const usersRouter = router({
       where: {
         id: input,
       },
+
       include: {
-        worldle: true,
-        sutom: true,
+        worldle: {
+          orderBy: [
+            {
+              createdAt: "desc",
+            },
+          ],
+        },
+        sutom: {
+          orderBy: [
+            {
+              createdAt: "desc",
+            },
+          ],
+        },
       },
     });
 
